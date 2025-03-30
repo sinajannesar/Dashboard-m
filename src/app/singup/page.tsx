@@ -20,7 +20,7 @@ export default function LoginPage() {
             email: formData.get('email') as string,
             password: formData.get('password') as string
         };
-console.log(userData)
+        console.log(userData)
         try {
             const response = await fetch('/api/data', {
                 method: 'POST',
@@ -86,7 +86,7 @@ console.log(userData)
                             <input
                                 id="phone_number"
                                 name="phonenumber"
-                                type="number"
+                                type="phonenumber"
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="Phone number"
@@ -116,7 +116,14 @@ console.log(userData)
                             />
                         </div>
                     </div>
-
+                    <div className="text-sm ">
+                        <a
+                            href="/login"
+                            className="font-medium text-indigo-600 hover:text-indigo-500"
+                        >
+                            login
+                        </a>
+                    </div>
                     <div>
                         <button
                             type="submit"
@@ -126,6 +133,7 @@ console.log(userData)
                             {loading ? 'Processing...' : 'Register'}
                         </button>
                     </div>
+
                 </form>
             </div>
         </div>
