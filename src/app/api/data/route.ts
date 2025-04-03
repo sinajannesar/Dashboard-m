@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { UserData, Database } from '@/types/types';
-import { userSchema } from '@/schemas/user';
+import { formDataSchema } from '@/schemas/user';
 
 const dbPath = path.join(process.cwd(), 'db.json');
 
@@ -10,7 +10,7 @@ export async function POST(request: Request) {
   try {
     const inputData = await request.json();
 
-    const validationResult = userSchema.safeParse(inputData);
+    const validationResult = formDataSchema.safeParse(inputData);
     
     if (!validationResult.success) {
       return NextResponse.json(

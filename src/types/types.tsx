@@ -9,9 +9,9 @@ export interface User {
 
 export interface UserData {
   id: number;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
+  first_name: string;
+  last_name: string;
+  phonenumber: string;
   email: string;
   password: string;
   createdAt: string;

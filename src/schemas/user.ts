@@ -1,10 +1,11 @@
 import { z } from 'zod';
 
-// schemas/user.ts
-export const userSchema = z.object({
-  firstName: z.string().min(2),
-  lastName: z.string().min(2),
-  phoneNumber: z.string().min(10).regex(/^[0-9]+$/),
-  email: z.string().email(),
-  password: z.string().min(4)
+export const formDataSchema = z.object({
+  first_name: z.string().min(2, "First name must be at least 2 characters"),
+  last_name: z.string().min(2, "Last name must be at least 2 characters"),
+  phonenumber: z.string()
+    .min(10, "Phone number must be at least 10 digits")
+    .regex(/^[0-9]+$/, "Invalid phone number (digits only)"),
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(4, "Password must be at least 4 characters"),
 });
