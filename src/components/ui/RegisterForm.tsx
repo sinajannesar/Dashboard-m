@@ -19,7 +19,6 @@ export default function RegisterForm() {
       const formData = new FormData(e.currentTarget);
       const rawData = Object.fromEntries(formData.entries());
       
-      // Convert phone number to string if needed
       if (rawData.phonenumber) {
         rawData.phonenumber = String(rawData.phonenumber);
       }
@@ -30,7 +29,7 @@ export default function RegisterForm() {
         throw new Error(validation.error.errors[0].message);
       }
 
-      const response = await fetch("/api/auth/register", {
+      const response = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(validation.data),

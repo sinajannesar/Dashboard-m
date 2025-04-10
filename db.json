@@ -46,51 +46,6 @@
       "createdAt": "2025-03-30T07:04:43.679Z"
     },
     {
-      "id": 1743318716039,
-      "first_name": "Amir",
-      "last_name": "jansdfsdfesar",
-      "phoneNumber": "09158366986",
-      "email": "sinajdsfsdfsdfsdfsdfsdannesar99@gmail.com",
-      "password": "321321321321",
-      "createdAt": "2025-03-30T07:11:56.039Z"
-    },
-    {
-      "id": 1743320688654,
-      "firstName": "sina",
-      "lastName": "jannesar",
-      "phoneNumber": "09158296986",
-      "email": "dttftyar99@gmail.com",
-      "password": "321312321",
-      "createdAt": "2025-03-30T07:44:48.654Z"
-    },
-    {
-      "id": 1743324903648,
-      "firstName": "nima",
-      "lastName": "ertgrer",
-      "phoneNumber": "09158483986",
-      "email": "sdfsdffsd@gmail.com",
-      "password": "10210230",
-      "createdAt": "2025-03-30T08:55:03.649Z"
-    },
-    {
-      "id": 1743656482073,
-      "firstName": "sina",
-      "lastName": "jannesar",
-      "phoneNumber": "09158296986",
-      "email": "sinajannesar99@gmail.com",
-      "password": "456132789",
-      "createdAt": "2025-04-03T05:01:22.073Z"
-    },
-    {
-      "id": 1743656916505,
-      "firstName": "sinasdf",
-      "lastName": "jannesarsdfs",
-      "phoneNumber": "09158463625",
-      "email": "sinajaasdfssar99@gmail.com",
-      "password": "321312321321",
-      "createdAt": "2025-04-03T05:08:36.505Z"
-    },
-    {
       "id": 1743661774322,
       "first_name": "bghgbn",
       "last_name": "vbvbhn",
@@ -98,6 +53,25 @@
       "email": "sdfhhikjmnikkor99@gmail.com",
       "password": "312312213",
       "createdAt": "2025-04-03T06:29:34.322Z"
+    },
+    {
+      "id": 1744268907274,
+      "first_name": "sina",
+      "last_name": "jannesar",
+      "phonenumber": "09158296986",
+      "email": "sinajanZasdasdnesar99@gmail.com",
+      "password": "111111111",
+      "createdAt": "2025-04-10T07:08:27.274Z"
+    },
+    {
+      "id": 1744282286222,
+      "first_name": "sina",
+      "last_name": "jannesar",
+      "phonenumber": "09158296986",
+      "email": "sinajannesar99@gmail.com",
+      "password": "00000000",
+      "avatar": "default-avatar.png",
+      "createdAt": "2025-04-10T10:51:26.222Z"
     }
   ]
 }

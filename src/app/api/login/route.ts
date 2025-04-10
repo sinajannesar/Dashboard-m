@@ -1,17 +1,6 @@
 import { NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
-interface User {
-  id: string;
-  email: string;
-  password: string;
-}
-
-interface Database {
-  users: User[];
-}
-
-const dbPath = path.join(process.cwd(), 'db.json');
+import { User } from '@/types/types';
+import { readDb, generateToken } from '@/lib/db';
 
 export async function POST(request: Request) {
   try {
@@ -24,11 +13,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const dbContents = await fs.readFile(dbPath, 'utf8');
-    const db: Database = JSON.parse(dbContents);
+    const db = await readDb();
 
     const user = db.users.find((u: User) => u.email === email);
-    
+
     if (!user) {
       return NextResponse.json(
         { error: 'Invalid credentials' },
@@ -43,13 +31,17 @@ export async function POST(request: Request) {
       );
     }
 
-    const { password: _, ...userData } = user;
-    
+    const userData = { ...user };
+    const token = generateToken(user.id.toString());
+
     return NextResponse.json(
-      { success: true, user: userData },
+      {
+        success: true,
+        user: userData,
+        token,
+      },
       { status: 200 }
     );
-
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(

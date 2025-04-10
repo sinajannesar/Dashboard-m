@@ -1,4 +1,3 @@
-
 export interface User {
   id: number;
   first_name: string;
@@ -14,6 +13,7 @@ export interface UserData {
   phonenumber: string;
   email: string;
   password: string;
+  avatar: string;
   createdAt: string;
   updatedAt?: string;
 };

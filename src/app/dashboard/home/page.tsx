@@ -4,6 +4,8 @@ import { CiEdit } from 'react-icons/ci';
 import { AiFillDelete } from 'react-icons/ai';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { fetchUsers } from '@/services/useerservis';
+import { Suspense } from 'react';
+
 
 export default async function UsersList() {
   const users = await fetchUsers();
@@ -35,14 +37,17 @@ export default async function UsersList() {
           {users.map((user) => (
             <Card key={user.id} className="hover:shadow-lg transition-shadow">
               <div className="relative h-48 w-full">
+                <Suspense>
                 <Image
-                  src={user.avatar || '/default-avatar.jpg'}
+                  src={typeof user.avatar === 'string' && user.avatar ? user.avatar : '/default-avatar.jpg'}
                   alt={`${user.first_name} ${user.last_name}`}
                   fill
                   className="rounded-t-lg object-cover"
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   priority={user.id <= 3}
                 />
+                </Suspense>
+                
               </div>
               
               <div className="p-4">

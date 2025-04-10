@@ -1,22 +1,33 @@
-// import { jwtDecode } from 'jwt-decode';
+import * as jose from 'jose';
 
-// // Dynamically imported components
-// export const login = async (email: string, password: string) => {
-//   const response = await fetch('/api/auth/login', {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify({ email, password }),
-//   });
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+const secretEncoder = new TextEncoder().encode(JWT_SECRET);
 
-//   if (!response.ok) {
-//     const error = await response.json();
-//     throw new Error(error.message || 'ورود ناموفق بود');
-//   }
+export async function verifyToken(
+  token: string
+): Promise<{ userId: string } | null> {
+  try {
+    if (!token) return null;
 
-//   return response.json();
-// };
+    const { payload } = await jose.jwtVerify(token, secretEncoder);
 
-// export const loadUserProfile = async () => {
-//   const module = await import('@/lib/user');
-//   return module.getUserProfile();
-// };
+    if (!payload || !payload.userId) {
+      return null;
+    }
+
+    return { userId: payload.userId as string };
+  } catch (error) {
+    console.error('Token verification failed:', error);
+    return null;
+  }
+}
+
+export async function generateToken(userId: string): Promise<string> {
+  const token = await new jose.SignJWT({ userId })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setExpirationTime('24h')
+    .setIssuedAt()
+    .sign(secretEncoder);
+
+  return token;
+}
