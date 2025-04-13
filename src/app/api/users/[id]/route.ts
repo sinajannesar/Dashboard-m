@@ -3,11 +3,11 @@ import { readDb, writeDb } from '@/lib/db';
 
 export async function DELETE({ params }: { params: { id: string } }) {
   try {
-    const id = await Promise.resolve(params.id);
+        await Promise.resolve(params); 
     const data = await readDb();
 
     const updatedUsers = data.users.filter(
-      (user: any) => String(user.id) !== String(id)
+      (user: any) => String(user.id) !== String(params.id)
     );
 
     if (data.users.length === updatedUsers.length) {
@@ -36,7 +36,7 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const id = await Promise.resolve(params.id);
+    const { id } = await Promise.resolve(params); 
     const body = await request.json();
 
     const data = await readDb();
@@ -63,10 +63,9 @@ export async function PUT(
 
 export async function GET({ params }: { params: { id: string } }) {
   try {
+    const { id } = await Promise.resolve(params); // Await params
     const data = await readDb();
-    const user = data.users.find(
-      (user: any) => String(user.id) === String(params.id)
-    );
+    const user = data.users.find((user: any) => String(user.id) === String(id));
 
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });

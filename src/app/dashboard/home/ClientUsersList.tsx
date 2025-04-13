@@ -1,13 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, Suspense } from 'react';
+import { useState } from 'react';
 import { User } from '@/types/types';
-import Modal from '@/components/ui/modal';
-import EditUserForm from '@/components/cruduser/EditUserForm';
-import DeleteUserConfirm from '@/components/cruduser/DeleteUserConfirm';
-import UserCard from '@/components/users/UserCard';
 import EmptyState from '@/components/users/EmptyState';
+import UserList from '@/components/users/UserList';
+import EditUserModal from '@/components/modals/EditUserModal';
+import DeleteUserModal from '@/components/modals/DeleteUserModal';
 
 interface ClientUsersListProps {
     initialUsers: User[];
@@ -65,48 +64,21 @@ export default function ClientUsersList({ initialUsers }: ClientUsersListProps) 
             {users.length === 0 ? (
                 <EmptyState />
             ) : (
-                // ...rest of the UI code
-                <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    {users.map((user) => (
-                        <Suspense key={user.id} fallback={<div className="h-48 bg-gray-100 rounded-lg animate-pulse"></div>}>
-                            <UserCard
-                                user={user}
-                                onEdit={handleEditClick}
-                                onDelete={handleDeleteClick}
-                            />
-                        </Suspense>
-                    ))}
-                </div>
+                <UserList users={users} onEdit={handleEditClick} onDelete={handleDeleteClick} />
             )}
 
-            <Modal
-                isOpen={!!editingUserId}
+            <EditUserModal
+                editingUserId={editingUserId}
                 onClose={() => setEditingUserId(null)}
-                title="Edit User"
-            >
-                {editingUserId && (
-                    <EditUserForm
-                        userId={editingUserId}
-                        onSave={handleSaveUser}
-                        onCancel={() => setEditingUserId(null)}
-                    />
-                )}
-            </Modal>
+                onSave={handleSaveUser}
+            />
 
-            <Modal
-                isOpen={!!deletingUserId}
+            <DeleteUserModal
+                deletingUserId={deletingUserId}
+                deletingUserName={deletingUserName}
                 onClose={() => setDeletingUserId(null)}
-                title="Delete User"
-            >
-                {deletingUserId && (
-                    <DeleteUserConfirm
-                        userId={deletingUserId}
-                        userName={deletingUserName}
-                        onDelete={handleDeleteUser}
-                        onCancel={() => setDeletingUserId(null)}
-                    />
-                )}
-            </Modal>
+                onDelete={handleDeleteUser}
+            />
         </div>
     );
 }

@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
-import { User } from '@/types/types';
-import { readDb, generateToken } from '@/lib/db';
+import { UserData } from '@/types/types';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import { sign } from 'jsonwebtoken';
 
 export async function POST(request: Request) {
   try {
@@ -13,35 +15,33 @@ export async function POST(request: Request) {
       );
     }
 
-    const db = await readDb();
+    // Read users from the JSON file
+    const dbPath = join(process.cwd(), 'db.json');
+    const dbContent = readFileSync(dbPath, 'utf-8');
+    const users: UserData[] = JSON.parse(dbContent).users;
 
-    const user = db.users.find((u: User) => u.email === email);
+    // Find user by email
+    const user = users.find((u: UserData) => u.email === email);
 
-    if (!user) {
+    if (!user || user.password !== password) {
       return NextResponse.json(
         { error: 'Invalid credentials' },
         { status: 401 }
       );
     }
 
-    if (user.password !== password) {
-      return NextResponse.json(
-        { error: 'Invalid credentials' },
-        { status: 401 }
-      );
-    }
-
-    const userData = { ...user };
-    const token = generateToken(user.id.toString());
-
-    return NextResponse.json(
+    // Create JWT token
+    const token = sign(
       {
-        success: true,
-        user: userData,
-        token,
+        userId: user.id,
+        email: user.email,
+        name: `${user.first_name} ${user.last_name}`,
       },
-      { status: 200 }
+      process.env.JWT_SECRET || 'default-secret',
+      { expiresIn: '1h' }
     );
+
+    return NextResponse.json({ token });
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(
