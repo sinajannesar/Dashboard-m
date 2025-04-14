@@ -10,24 +10,40 @@ export default function EditUserForm({ userId, onSave, onCancel }: EditUserFormP
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
+
     async function fetchUser() {
       setIsLoading(true);
       try {
         const res = await fetch(`/api/users?id=${userId}`);
         if (!res.ok) throw new Error('Failed to fetch user');
         const data = await res.json();
-        setUser(data.user || null);
+
+        // Handle different response formats
+        if (data && data.user) {
+          if (isMounted) setUser(data.user);
+        } else if (data && !data.error) {
+          // For backward compatibility if API returns user object directly
+          if (isMounted) setUser(data);
+        } else {
+          if (isMounted) setUser(null);
+          console.error('User not found or invalid data format');
+        }
       } catch (error) {
         console.error('Error fetching user:', error);
-        setUser(null);
+        if (isMounted) setUser(null);
       } finally {
-        setIsLoading(false);
+        if (isMounted) setIsLoading(false);
       }
     }
 
     if (userId) {
       fetchUser();
     }
+
+    return () => {
+      isMounted = false; // Cleanup to prevent memory leaks
+    };
   }, [userId]);
 
   const handleSubmit = async (e: React.FormEvent) => {

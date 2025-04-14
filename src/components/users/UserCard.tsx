@@ -13,6 +13,18 @@ interface UserCardProps {
 }
 
 export default function UserCard({ user, onEdit, onDelete }: UserCardProps) {
+  const handleEdit = () => {
+    console.log(`Edit clicked for user: ${user.first_name}, ID: ${user.id}, ID Type: ${typeof user.id}`);
+    const userId = typeof user.id === 'string' ? parseInt(user.id, 10) : user.id;
+    onEdit(userId);
+  };
+
+  const handleDelete = () => {
+    console.log(`Delete clicked for user: ${user.first_name}, ID: ${user.id}, ID Type: ${typeof user.id}`);
+    const userId = typeof user.id === 'string' ? parseInt(user.id, 10) : user.id;
+    onDelete(userId, `${user.first_name} ${user.last_name}`);
+  };
+
   return (
     <Card className="hover:shadow-lg transition-shadow">
       <div className="relative h-36 sm:h-48 w-full flex items-center justify-center bg-blue-100 text-blue-600 text-2xl sm:text-3xl font-bold">
@@ -48,14 +60,14 @@ export default function UserCard({ user, onEdit, onDelete }: UserCardProps) {
 
         <div className="mt-3 sm:mt-4 flex justify-end space-x-2 sm:space-x-3">
           <button
-            onClick={() => onEdit(user.id)}
+            onClick={handleEdit}
             className="text-blue-600 hover:text-blue-800"
             title="Edit"
           >
             <CiEdit className="h-4 w-4 sm:h-5 sm:w-5" />
           </button>
           <button
-            onClick={() => onDelete(user.id, `${user.first_name} ${user.last_name}`)}
+            onClick={handleDelete}
             className="text-red-600 hover:text-red-800"
             title="Delete"
           >

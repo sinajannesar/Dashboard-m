@@ -1,7 +1,8 @@
 // src/components/users/DeleteUserConfirm.tsx
 
-import React, { useState } from 'react';
-import { DeleteUserConfirmProps } from '@/types/types'
+import React, { useState, useCallback } from 'react';
+import { DeleteUserConfirmProps } from '@/types/types';
+import { deleteUser } from '@/services/userService';
 
 export default function DeleteUserConfirm({
   userId,
@@ -12,26 +13,29 @@ export default function DeleteUserConfirm({
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleDelete = async () => {
+  const handleDelete = useCallback(async () => {
+    if (!userId) {
+      setError('User ID is required');
+      return;
+    }
+
     setIsDeleting(true);
     setError(null);
-    try {
-      const res = await fetch(`/api/users/${userId}`, {
-        method: 'DELETE',
-      });
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || 'Could not delete user at this time');
+    try {
+      const result = await deleteUser(userId);
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to delete user');
       }
 
-      onDelete();
+      await onDelete();
     } catch (error) {
-      console.error('Error deleting user:', error);
       setError(error instanceof Error ? error.message : 'Could not delete user at this time');
+    } finally {
       setIsDeleting(false);
     }
-  };
+  }, [userId, onDelete]);
 
   return (
     <div className="text-center">
@@ -50,34 +54,36 @@ export default function DeleteUserConfirm({
           />
         </svg>
       </div>
-
-      <h3 className="text-lg font-medium text-gray-900 mb-2">Delete User</h3>
-
-      <div className="mt-2 px-7 py-3">
-        <p className="text-sm text-gray-500">
-          Are you sure you want to delete <span className="font-semibold">{userName}</span>? This action cannot be undone.
-        </p>
-        {error && (
-          <p className="text-sm text-red-600 mt-2">{error}</p>
-        )}
+      <div className="mt-3 text-center sm:mt-5">
+        <h3 className="text-lg leading-6 font-medium text-gray-900">
+          Delete User
+        </h3>
+        <div className="mt-2">
+          {error ? (
+            <p className="text-red-600">{error}</p>
+          ) : (
+            <p className="text-gray-500">
+              Are you sure you want to delete {userName}? This action cannot be undone.
+            </p>
+          )}
+        </div>
       </div>
-
-      <div className="flex justify-center space-x-3 mt-5">
+      <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
         <button
           type="button"
-          onClick={onCancel}
-          className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-          disabled={isDeleting}
-        >
-          Cancel
-        </button>
-        <button
-          type="button"
+          className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:col-start-2 sm:text-sm disabled:opacity-50"
           onClick={handleDelete}
-          className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-70"
           disabled={isDeleting}
         >
           {isDeleting ? 'Deleting...' : 'Delete'}
+        </button>
+        <button
+          type="button"
+          className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
+          onClick={onCancel}
+          disabled={isDeleting}
+        >
+          Cancel
         </button>
       </div>
     </div>

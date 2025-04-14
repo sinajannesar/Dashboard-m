@@ -7,20 +7,23 @@ export async function GET(request: Request) {
     const users = Array.isArray(data.users) ? data.users : [];
 
     const url = new URL(request.url);
-    const userId = url.searchParams.get('id');
+    const userId = url.searchParams.get('id'); // بررسی وجود id در query params
 
     if (userId) {
       const user = users.find((u: any) => String(u.id) === String(userId));
       if (!user) {
         return NextResponse.json({ error: 'User not found' }, { status: 404 });
       }
-      return NextResponse.json({ user });
+      return NextResponse.json({ user }); // بازگرداندن کاربر خاص در قالب آبجکت با کلید user
     }
 
-    return NextResponse.json({ users });
+    return NextResponse.json({ users }); // بازگرداندن لیست کاربران در قالب آبجکت با کلید users
   } catch (error) {
     console.error('Fetch error:', error);
-    return NextResponse.json({ users: [] }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch users' },
+      { status: 500 }
+    );
   }
 }
 

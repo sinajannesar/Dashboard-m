@@ -3,15 +3,12 @@ import { readDb } from '@/lib/db';
 
 export async function fetchUsers(): Promise<User[]> {
   try {
-    // Get external users
     const apiResponse = await fetch('https://reqres.in/api/users');
     if (!apiResponse.ok) throw new Error('External API failed');
     const apiData = await apiResponse.json();
 
-    // Get local users
     const dbData = await readDb();
     
-    // Combine and deduplicate users
     const combinedUsers = [...apiData.data, ...dbData.users];
     const uniqueUsers = combinedUsers.filter(
       (user, index, self) => index === self.findIndex(u => u.id === user.id)
