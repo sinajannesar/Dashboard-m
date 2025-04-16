@@ -29,7 +29,7 @@ export default function RegisterForm() {
         throw new Error(validation.error.errors[0].message);
       }
 
-      const response = await fetch("/api/register", {
+      const response = await fetch("/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(validation.data),
@@ -40,7 +40,7 @@ export default function RegisterForm() {
         throw new Error(errorData.error || "Registration failed. Please try again.");
       }
 
-      router.push("/dashboard/home");
+      router.push("/auth/login");
     } catch (err: any) {
       setError(err.message);
     } finally {

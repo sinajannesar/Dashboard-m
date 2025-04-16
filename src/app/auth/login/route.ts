@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
+import { readDb } from '@/lib/db';
 import { User } from '@/types/types';
-import { readDb, generateToken } from '@/lib/db';
 
 export async function POST(request: Request) {
   try {
@@ -14,8 +14,9 @@ export async function POST(request: Request) {
     }
 
     const db = await readDb();
-
-    const user = db.users.find((u: User) => u.email === email);
+    const user = db.users.find(
+      (u: User) => u.email === email && u.password === password
+    );
 
     if (!user) {
       return NextResponse.json(
@@ -24,24 +25,13 @@ export async function POST(request: Request) {
       );
     }
 
-    if (user.password !== password) {
-      return NextResponse.json(
-        { error: 'Invalid credentials' },
-        { status: 401 }
-      );
-    }
-
-    const userData = { ...user };
-    const token = generateToken(user.id.toString());
+    const { password: _unused, ...userData } = user;
 
     return NextResponse.json(
-      {
-        success: true,
-        user: userData,
-        token,
-      },
+      { success: true, user: userData },
       { status: 200 }
     );
+
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(

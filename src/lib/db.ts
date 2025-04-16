@@ -1,8 +1,8 @@
 export const runtime = 'nodejs';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { Database } from '@/types/types';
 import jwt from 'jsonwebtoken';
+import {Database} from "@/types/types"
 
 const dbPath = path.join(process.cwd(), 'db.json');
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
@@ -37,3 +37,5 @@ export function verifyToken(token: string): { userId: string } | null {
     return null;
   }
 }
+
+

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { UserData } from '@/types/types';
 import { formDataSchema } from '@/schemas/user';
-import { initDb, writeDb, generateToken } from '@/lib/db';
+import { initDb, writeDb } from '@/lib/db'; 
 
 export async function POST(request: Request) {
   try {
@@ -30,6 +30,12 @@ export async function POST(request: Request) {
       );
     }
 
+    if (db.users.some(user => user.phonenumber === inputData.phonenumber)) {
+      return NextResponse.json(
+        { error: 'این شماره قبلا ثبت شده است' },
+        { status: 409 }
+      );
+    }
     const newUser: UserData = {
       id: Date.now(),
       ...validationResult.data,
@@ -40,13 +46,11 @@ export async function POST(request: Request) {
     db.users.push(newUser);
     await writeDb(db);
 
-    const token = generateToken(newUser.id.toString());
-
     return NextResponse.json(
       {
         success: true,
+        message: 'ثبت‌نام موفقیت‌آمیز بود. لطفا وارد شوید',
         user: newUser,
-        token,
       },
       { status: 201 }
     );

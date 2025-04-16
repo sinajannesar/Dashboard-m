@@ -1,17 +1,20 @@
-"use client"
 import '../globals.css';
-import { SessionProvider } from "next-auth/react";
+import type { Metadata } from 'next';
+import SessionProviderWrapper from './providers';
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const metadata: Metadata = {
+  title: 'Dashboard',
+  description: 'My dashboard',
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <SessionProvider>
-      <html lang="en">
-          <body className="antialiased">{children}</body>
-      </html>
-    </SessionProvider>
+    <html lang="en">
+      <body>
+        <SessionProviderWrapper>
+          {children}
+        </SessionProviderWrapper>
+      </body>
+    </html>
   );
 }
