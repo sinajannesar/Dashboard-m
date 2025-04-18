@@ -29,21 +29,12 @@
     },
     {
       "id": 1743318187791,
-      "first_name": "sinasdfsdfsdsf",
-      "last_name": "jannesarsdfsfsdfsdfsdf",
+      "first_name": "hamid",
+      "last_name": "sirjani",
       "phonenumber": "09454537049",
-      "email": "sdfsdfsdesar99@gmail.com",
+      "email": "hamidsirjani@gmail.com",
       "password": "231645987",
       "createdAt": "2025-03-30T07:03:07.791Z"
-    },
-    {
-      "id": 1743318283679,
-      "first_name": "sinasdad",
-      "last_name": "asdasdadasda",
-      "phonenumber": "09158298886",
-      "email": "sinajanneasdasdasdasdassar99@gmail.com",
-      "password": "987987987",
-      "createdAt": "2025-03-30T07:04:43.679Z"
     },
     {
       "id": 1743661774322,
@@ -70,7 +61,6 @@
       "phonenumber": "09158296986",
       "email": "sinajannesar99@gmail.com",
       "password": "00000000",
-      "avatar": "default-avatar.png",
       "createdAt": "2025-04-10T10:51:26.222Z"
     }
   ]

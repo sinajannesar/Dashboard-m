@@ -22,3 +22,4 @@ export interface UserData {
 export interface Database {
   users: UserData[];
 };
+
