@@ -75,11 +75,12 @@ export default function UserCard({ user, session }: UserCardProps) {
         <div className="relative h-48 w-full">
           {user.avatar ? (
             <Image
-              src={user.avatar.startsWith('/') ? user.avatar : `/${user.avatar}`}
+              src={user.avatar.startsWith('http') ? user.avatar : `/${user.avatar}`}
               alt={`${user.first_name} ${user.last_name}`}
               fill
               className="rounded-t-lg object-cover"
             />
+
           ) : (
             <div className="h-full w-full bg-blue-50 flex items-center justify-center rounded-t-lg">
               <span className="text-3xl text-blue-500">
@@ -129,7 +130,6 @@ export default function UserCard({ user, session }: UserCardProps) {
         </div>
       </Card>
 
-      {/* Edit Modal */}
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent>
           <DialogHeader>
@@ -179,7 +179,6 @@ export default function UserCard({ user, session }: UserCardProps) {
         </DialogContent>
       </Dialog>
 
-      {/* Delete Modal */}
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
         <DialogContent>
           <DialogHeader>

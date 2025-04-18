@@ -55,14 +55,7 @@ export default function Sidebar() {
                       Add profile
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      href="/dashboard/users/editprofile"
-                      className="block rounded-lg px-4 py-2 text-blue-200 hover:bg-blue-500/30 hover:text-white"
-                    >
-                      Edit profile
-                    </Link>
-                  </li>
+                  
               
                 </ul>
               )}

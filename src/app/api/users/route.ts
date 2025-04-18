@@ -18,7 +18,6 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ message: 'User not found' }, { status: 404 });
   }
 
-  // Preserve existing fields that aren't being updated
   const updatedUser = {
     ...db.users[userIndex],
     first_name,
@@ -54,4 +53,30 @@ export async function DELETE(req: NextRequest) {
   await writeDb(db);
 
   return NextResponse.json({ message: 'User deleted successfully' });
+}
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+  const { first_name, last_name, email, avatar } = body;
+
+  if (!first_name || !last_name || !email) {
+    return NextResponse.json({ message: 'Invalid data' }, { status: 400 });
+  }
+
+  const db = await readDb();
+
+  const newUser: UserData = {
+    id: Date.now(),
+    first_name,
+    last_name,
+    email,
+    avatar: avatar || '',
+    phonenumber: body.phonenumber || '',    
+    password: body.password || '',          
+    createdAt: new Date().toISOString(),   
+  };
+
+  db.users.push(newUser);
+  await writeDb(db);
+
+  return NextResponse.json({ message: 'User added successfully', user: newUser }, { status: 201 });
 }

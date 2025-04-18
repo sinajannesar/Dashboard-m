@@ -62,6 +62,16 @@
       "email": "sinajannesar99@gmail.com",
       "password": "00000000",
       "createdAt": "2025-04-10T10:51:26.222Z"
+    },
+    {
+      "id": 1744962898759,
+      "first_name": "mehran",
+      "last_name": "salhi",
+      "email": "mehran1212@gmail.com",
+      "avatar": "",
+      "phonenumber": "09014565897",
+      "password": "555555555",
+      "createdAt": "2025-04-18T07:54:58.759Z"
     }
   ]
 }

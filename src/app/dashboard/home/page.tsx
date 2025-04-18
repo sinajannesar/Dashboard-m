@@ -14,7 +14,7 @@ export default async function UsersList() {
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-semibold text-gray-800">User List</h1>
         <Link
-          href="/users/add"
+          href="/users/addprofile"
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 font-semibold"
         >
           Add user
