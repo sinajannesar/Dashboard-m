@@ -10,7 +10,6 @@ export default async function UsersList() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
-      {/* هدر صفحه */}
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-semibold text-gray-800">User List</h1>
         <Link
@@ -21,19 +20,17 @@ export default async function UsersList() {
         </Link>
       </div>
 
-      {/* حالت خالی */}
       {users.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-gray-500 text-lg">Not Found User</p>
           <Link
-            href="/users/add"
+            href="/users/addprofile"
             className="text-blue-600 hover:underline mt-2 inline-block"
           >
             Add New Users
           </Link>
         </div>
       ) : (
-        /* نمایش لیست کاربران */
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {users.map((user) => (
             <UserCard 

@@ -1,5 +1,5 @@
 // در route مثل pages/profile.tsx یا API route
-import { authOptions } from "@/lib/auth"; // یا هرجایی که گزینه‌های auth هست
+import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 
 export default async function UsersList() {

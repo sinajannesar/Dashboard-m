@@ -28,7 +28,7 @@ export default function AddUserPage() {
     });
 
     if (res.ok) {
-      router.push('/home');
+      router.push('/dashboard/home');
       router.refresh();
     }
   };
@@ -81,7 +81,7 @@ export default function AddUserPage() {
               />
             </div>
             <div>
-              <Label htmlFor="phonenumber" className='p-1'>Phone Number (optional)</Label>
+              <Label htmlFor="phonenumber" className='p-1'>Phone Number </Label>
               <Input
               className='border-blue-500/50'
                 id="phonenumber"
@@ -90,7 +90,7 @@ export default function AddUserPage() {
               />
             </div>
             <div>
-              <Label htmlFor="password" className='p-1'>Password (optional)</Label>
+              <Label htmlFor="password" className='p-1'>Password </Label>
               <Input
               className='border-blue-500/50'
                 id="password"

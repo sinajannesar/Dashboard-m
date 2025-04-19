@@ -53,7 +53,7 @@ export default function Home() {
           <Link href="/login"  >
             <Button variant="default" formMethod='post'>Login</Button>
           </Link>
-          <Link href="/singup">
+          <Link href="/register">
             <Button variant="secondary">Sign up</Button>
           </Link>
 

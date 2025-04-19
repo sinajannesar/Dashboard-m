@@ -18,13 +18,13 @@ export default function RegisterForm() {
     try {
       const formData = new FormData(e.currentTarget);
       const rawData = Object.fromEntries(formData.entries());
-      
+
       if (rawData.phonenumber) {
         rawData.phonenumber = String(rawData.phonenumber);
       }
 
       const validation = formDataSchema.safeParse(rawData);
-      
+
       if (!validation.success) {
         throw new Error(validation.error.errors[0].message);
       }
@@ -40,7 +40,7 @@ export default function RegisterForm() {
         throw new Error(errorData.error || "Registration failed. Please try again.");
       }
 
-      router.push("/auth/login");
+      router.push("login");
     } catch (err: any) {
       setError(err.message);
     } finally {

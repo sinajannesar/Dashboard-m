@@ -39,7 +39,7 @@ export async function POST(request: Request) {
     const newUser: UserData = {
       id: Date.now(),
       ...validationResult.data,
-      avatar: 'default-avatar.png',
+      avatar: '',
       createdAt: new Date().toISOString(),
     };
 
