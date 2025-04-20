@@ -35,7 +35,7 @@ export const authOptions: AuthOptions = {
     Auth0Provider({
       clientId: process.env.AUTH0_CLIENT_ID!,
       clientSecret: process.env.AUTH0_CLIENT_SECRET!,
-      issuer: `https://${process.env.AUTH0_ISSUER_BASE_URL}`,
+      issuer: `https://${process.env.AUTH0_ISSUER}`,
       authorization: {
         params: {
           prompt: 'login',
