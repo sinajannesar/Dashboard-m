@@ -2,7 +2,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { z } from 'zod';
 
-const DATA_FILE_PATH = path.join(process.cwd(), 'data', 'users.json');
+const DATA_FILE_PATH = path.join(process.cwd(), 'db.json');
 
 const userSchema = z.object({
   id: z.number(),

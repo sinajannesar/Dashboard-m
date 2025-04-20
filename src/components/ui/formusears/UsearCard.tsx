@@ -74,6 +74,7 @@ export default function UserCard({ user, session }: UserCardProps) {
                 src={user.avatar.startsWith("http") ? user.avatar : `/${user.avatar}`}
                 alt={`${user.first_name} ${user.last_name}`}
                 fill
+                priority 
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover"
               />

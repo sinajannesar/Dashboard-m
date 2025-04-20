@@ -1,15 +1,14 @@
-// فقط برای مسیرهای تو در تو (مثلاً app/dashboard/layout.tsx)
 import Sidebar from '@/components/sidebar/sidebar';
 // import Record from '@/components/ui/record';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+// import { getServerSession } from 'next-auth';
+// import { authOptions } from '@/lib/auth';
 
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  // const session = await getServerSession(authOptions);
 
   return (
     <div className="h-screen flex flex-col">

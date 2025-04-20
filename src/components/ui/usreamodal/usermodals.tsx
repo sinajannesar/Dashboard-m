@@ -19,12 +19,13 @@ interface EditDialogProps {
 
 export function EditDialog({ open, setOpen, editData, setEditData, onSave }: EditDialogProps) {
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen} aria-labelledby="edit-dialog-title" aria-describedby="edit-dialog-description">
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit User</DialogTitle>
+          <DialogTitle id="edit-dialog-title">Edit User</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4">
+        <div className="space-y-4" id="edit-dialog-description">
+          <p>Edit the user information below:</p>
           <div className="space-y-2">
             <Label>First Name</Label>
             <Input
@@ -70,12 +71,12 @@ interface DeleteDialogProps {
 
 export function DeleteDialog({ open, setOpen, onDelete }: DeleteDialogProps) {
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen} aria-labelledby="delete-dialog-title" aria-describedby="delete-dialog-description">
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete User</DialogTitle>
+          <DialogTitle id="delete-dialog-title">Delete User</DialogTitle>
         </DialogHeader>
-        <p>Are you sure you want to delete this user?</p>
+        <p id="delete-dialog-description">Are you sure you want to delete this user?</p>
         <DialogFooter>
           <Button variant="destructive" onClick={onDelete}>
             Delete

@@ -16,7 +16,7 @@ export default async function UsersList() {
         <h1 className="text-2xl font-semibold text-gray-800">User List</h1>
         
         <Link
-          href="/users/addprofile"
+          href="dashboard/users/addprofile"
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 font-semibold"
         >
           Add user
