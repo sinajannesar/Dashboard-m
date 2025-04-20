@@ -5,5 +5,5 @@ import { getServerSession } from "next-auth";
 export default async function UsersList() {
   const session = await getServerSession(authOptions);
 
-  return <div>Session: {JSON.stringify(session)}</div>;
+  return <div>Session: {JSON.stringify(session!)}</div>;
 }

@@ -21,7 +21,7 @@ interface User {
 
 interface UserCardProps {
   user: User;
-  session?: Session | null;
+  session: Session ;
 }
 
 export default function UserCard({ user, session }: UserCardProps) {
