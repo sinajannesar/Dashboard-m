@@ -1,8 +1,12 @@
 import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import Auth0Provider from "next-auth/providers/auth0";
 import { z } from 'zod';
 import fs from 'fs';
 import path from 'path';
+import { AddUser } from '@/lib/actions/addUser';
+import {Emailcheck} from '@/hooks/useEmailcheck'
+
 
 const loginCredentialsSchema = z.object({
   email: z.string().email('ایمیل معتبر نیست'),
@@ -25,9 +29,22 @@ function validateData<T extends z.ZodTypeAny>(
 }
 
 const dbFilePath = path.join(process.cwd(), 'db.json');
-
 export const authOptions: AuthOptions = {
   providers: [
+
+    Auth0Provider({
+      clientId: process.env.AUTH0_CLIENT_ID!,
+      clientSecret: process.env.AUTH0_CLIENT_SECRET!,
+      issuer: `https://${process.env.AUTH0_ISSUER_BASE_URL}`,
+      authorization: {
+        params: {
+          prompt: "login",
+          scope: "openid profile email",
+        },
+      },
+    }),
+
+
     CredentialsProvider({
       name: 'credentials',
       credentials: {
@@ -78,6 +95,38 @@ export const authOptions: AuthOptions = {
     newUser: '/auth/register',
   },
   callbacks: {
+
+    async signIn({ user, account, profile }) {
+      if (account?.provider === "auth0") {
+        try {
+          // Check if the user already exists by email
+          const existingUser = await Emailcheck(user.email!);
+    
+          if (!existingUser) {
+            // Create a new user if it doesn't exist
+            await AddUser({
+              first_name: (profile as any).given_name || user.name?.split(" ")[0] || "",
+              last_name: (profile as any).family_name || user.name?.split(" ")[1] || "",
+              email: user.email!,
+              password: `auth0_${Date.now()}`, // Temporary password for Auth0 users
+              avatar: user.image || `https://reqres.in/img/faces/2-image.jpg`,
+            });
+          } else if (!existingUser.password.startsWith("auth0_")) {
+            // Handle case where the email is already registered with credentials
+            console.error("This email is already registered with credentials");
+            return false;
+          }
+          return true; // Successfully signed in
+        } catch (error) {
+          console.error("Error saving Auth0 user:", error);
+          return false; // Error occurred
+        }
+      }
+      return true; // Non-Auth0 user (or other providers)
+    },
+    
+    
+    
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -96,4 +145,5 @@ export const authOptions: AuthOptions = {
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
+  debug: true,
 };

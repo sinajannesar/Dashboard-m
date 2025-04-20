@@ -32,6 +32,8 @@ export async function PUT(req: NextRequest) {
   return NextResponse.json({ message: 'User updated successfully' });
 }
 
+
+
 export async function DELETE(req: NextRequest) {
   const body = await req.json();
   const { id, email } = body;
@@ -54,6 +56,15 @@ export async function DELETE(req: NextRequest) {
 
   return NextResponse.json({ message: 'User deleted successfully' });
 }
+
+
+
+
+
+
+
+
+
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const { first_name, last_name, email, avatar } = body;

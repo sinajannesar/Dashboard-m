@@ -1,22 +1,15 @@
 'use client';
-
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CiEdit } from 'react-icons/ci';
 import { AiFillDelete } from 'react-icons/ai';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
+import { Card } from '@/components/ui/card';
 import { Session } from 'next-auth';
+import axios from 'axios';
+const EditDialog = dynamic(() => import('../usreamodal/usermodals').then(mod => mod.EditDialog));
+const DeleteDialog = dynamic(() => import('../usreamodal/usermodals').then(mod => mod.DeleteDialog));
 
 interface User {
   id: number;
@@ -44,17 +37,19 @@ export default function UserCard({ user, session }: UserCardProps) {
   });
 
   const handleUpdate = async () => {
-    const res = await fetch('/api/users', {
-      method: 'PUT',
+    const res = await axios.put('/api/users', {
+      id: user.id,
+      ...editData,
+    }, {
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: user.id, ...editData }),
     });
-
-    if (res.ok) {
+  
+    if (res.status === 200) {
       setEditOpen(false);
       router.refresh();
     }
   };
+  
 
   const handleDelete = async () => {
     const res = await fetch('/api/users', {
@@ -72,17 +67,19 @@ export default function UserCard({ user, session }: UserCardProps) {
   return (
     <>
       <Card className="hover:shadow-lg transition-shadow">
-        <div className="relative h-48 w-full">
+        <div className="relative w-full aspect-[3/2]">
           {user.avatar ? (
-            <Image
-              src={user.avatar.startsWith('http') ? user.avatar : `/${user.avatar}`}
-              alt={`${user.first_name} ${user.last_name}`}
-              fill
-              className="rounded-t-lg object-cover"
-            />
-
+            <Suspense fallback={<div>Loading...</div>}>
+              <Image
+                src={user.avatar.startsWith("http") ? user.avatar : `/${user.avatar}`}
+                alt={`${user.first_name} ${user.last_name}`}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover"
+              />
+            </Suspense>
           ) : (
-            <div className="h-full w-full bg-blue-50 flex items-center justify-center rounded-t-lg">
+            <div className="w-full h-full bg-blue-50 flex items-center justify-center">
               <span className="text-3xl text-blue-500">
                 {user.first_name[0]}
                 {user.last_name[0]}
@@ -92,22 +89,16 @@ export default function UserCard({ user, session }: UserCardProps) {
         </div>
 
         <div className="p-4">
-          <CardHeader className="p-0">
-            <h3 className="text-lg font-semibold">
-              {user.first_name} {user.last_name}
-            </h3>
-          </CardHeader>
+          <h3 className="text-lg font-semibold">
+            {user.first_name} {user.last_name}
+          </h3>
 
-          <CardContent className="mt-2 p-0 space-y-2">
-            <p className="text-sm">
-              <span className="font-medium">Email:</span> {user.email}
-            </p>
-            <p className="text-sm">
-              <span className="font-medium">User ID:</span> {user.id}
-            </p>
-          </CardContent>
+          <div className="mt-2 text-sm space-y-1 text-gray-700">
+            <p><span className="font-medium">Email:</span> {user.email}</p>
+            <p><span className="font-medium">User ID:</span> {user.id}</p>
+          </div>
 
-          <div className="mt-4 flex justify-end space-x-3">
+          <div className="mt-4 flex justify-end gap-3 text-gray-600">
             <button
               onClick={() => setEditOpen(true)}
               title="Edit"
@@ -115,13 +106,12 @@ export default function UserCard({ user, session }: UserCardProps) {
             >
               <CiEdit className="h-5 w-5" />
             </button>
-
             <button
               onClick={() => setDeleteOpen(true)}
               title="Delete"
-              className="hover:text-red-800"
+              className="hover:text-red-600"
             >
-              <AiFillDelete className="h-5 w-5 text-black" />
+              <AiFillDelete className="h-5 w-5" />
               {session?.user?.name && (
                 <span className="sr-only">User: {session.user.name}</span>
               )}
@@ -130,68 +120,19 @@ export default function UserCard({ user, session }: UserCardProps) {
         </div>
       </Card>
 
-      <Dialog open={editOpen} onOpenChange={setEditOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Edit User</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label>First Name</Label>
-              <Input
-                value={editData.first_name}
-                onChange={(e) =>
-                  setEditData({ ...editData, first_name: e.target.value })
-                }
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Last Name</Label>
-              <Input
-                value={editData.last_name}
-                onChange={(e) =>
-                  setEditData({ ...editData, last_name: e.target.value })
-                }
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Email</Label>
-              <Input
-                value={editData.email}
-                onChange={(e) =>
-                  setEditData({ ...editData, email: e.target.value })
-                }
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Avatar URL</Label>
-              <Input
-                value={editData.avatar}
-                onChange={(e) =>
-                  setEditData({ ...editData, avatar: e.target.value })
-                }
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button onClick={handleUpdate}>Save Changes</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <EditDialog
+        open={editOpen}
+        setOpen={setEditOpen}
+        editData={editData}
+        setEditData={setEditData}
+        onSave={handleUpdate}
+      />
 
-      <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Delete User</DialogTitle>
-          </DialogHeader>
-          <p>Are you sure you want to delete this user?</p>
-          <DialogFooter>
-            <Button variant="destructive" onClick={handleDelete}>
-              Delete
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <DeleteDialog
+        open={deleteOpen}
+        setOpen={setDeleteOpen}
+        onDelete={handleDelete}
+      />
     </>
   );
 }
