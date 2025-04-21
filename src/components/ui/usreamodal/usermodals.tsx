@@ -1,9 +1,10 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dispatch, SetStateAction } from 'react';
-
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'; // Import VisuallyHidden
 interface EditDialogProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -22,7 +23,7 @@ export function EditDialog({ open, setOpen, editData, setEditData, onSave }: Edi
     <Dialog open={open} onOpenChange={setOpen} aria-labelledby="edit-dialog-title" aria-describedby="edit-dialog-description">
       <DialogContent>
         <DialogHeader>
-          <DialogTitle id="edit-dialog-title">Edit User</DialogTitle>
+          {/* <DialogTitle id="edit-dialog-title">Edit User</DialogTitle> */}
         </DialogHeader>
         <div className="space-y-4" id="edit-dialog-description">
           <p>Edit the user information below:</p>
@@ -73,9 +74,9 @@ export function DeleteDialog({ open, setOpen, onDelete }: DeleteDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen} aria-labelledby="delete-dialog-title" aria-describedby="delete-dialog-description">
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle id="delete-dialog-title">Delete User</DialogTitle>
-        </DialogHeader>
+          <DialogTitle id="delete-dialog-title">
+            <VisuallyHidden>Delete User</VisuallyHidden>
+          </DialogTitle>
         <p id="delete-dialog-description">Are you sure you want to delete this user?</p>
         <DialogFooter>
           <Button variant="destructive" onClick={onDelete}>

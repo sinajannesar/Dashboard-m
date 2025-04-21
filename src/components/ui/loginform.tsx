@@ -133,7 +133,7 @@ export default function LoginForm() {
           </div>
         </div>
 
-        <div className="mt-3">
+        <div className="mt-3 space-y-3.5">
           <a
             href="/register"
             className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -143,13 +143,13 @@ export default function LoginForm() {
         </div>
 
         <div className="mt-2">
-          <a
+          <button
             type="button"
             onClick={handleAuth0Login}
             className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             login for Auth0
-          </a>
+          </button>
         </div>
       </div>
     </div>
