@@ -1,8 +1,15 @@
-import '@testing-library/jest-dom';
+import nextJest from "next/jest";
 
-export default {
-    setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'], // یا setupTests.ts
-    testEnvironment: 'jsdom',
-    // ...سایر تنظیمات
-  };
-  
+const createJestConfig = nextJest({
+  dir: "./",
+});
+
+const customJestConfig = {
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+  testEnvironment: "jest-environment-jsdom",
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/$1",
+  },
+};
+
+export default createJestConfig(customJestConfig);
