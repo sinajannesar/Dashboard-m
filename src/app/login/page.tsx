@@ -1,4 +1,3 @@
-// app/login/page.tsx یا هر جایی که صفحه لاگین هست
 "use client";
 import Head from 'next/head';
 import LoginForm from '@/components/ui/loginform';

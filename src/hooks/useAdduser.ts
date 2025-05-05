@@ -24,10 +24,11 @@ export const AddUser = () => {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      if (res.status === 200) {
+      if (res.status >= 200 && res.status < 300) {
         router.push('/dashboard/home');
         router.refresh();
       }
+      
     } catch (err) {
       console.error('Error adding user:', err);
     }

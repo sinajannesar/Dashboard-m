@@ -100,32 +100,29 @@ export const authOptions: AuthOptions = {
     async signIn({ user, account, profile }) {
       if (account?.provider === 'auth0') {
         try {
-          // Check if the user already exists by email
           const existingUser = await Emailcheck(user.email!);
 
           if (!existingUser) {
-            // Create a new user if it doesn't exist
             await AddUser({
               first_name:
                 (profile as any).given_name || user.name?.split(' ')[0] || '',
               last_name:
                 (profile as any).family_name || user.name?.split(' ')[1] || '',
               email: user.email!,
-              password: `auth0_${Date.now()}`, // Temporary password for Auth0 users
+              password: `auth0______${Date.now()}`,
               avatar: user.image || `https://reqres.in/img/faces/2-image.jpg`,
             });
           } else if (!existingUser.password.startsWith('auth0_')) {
-            // Handle case where the email is already registered with credentials
             console.error('This email is already registered with credentials');
             return false;
           }
-          return true; // Successfully signed in
+          return true; 
         } catch (error) {
           console.error('Error saving Auth0 user:', error);
-          return false; // Error occurred
+          return false; 
         }
       }
-      return true; // Non-Auth0 user (or other providers)
+      return true; 
     },
 
     async jwt({ token, user }) {

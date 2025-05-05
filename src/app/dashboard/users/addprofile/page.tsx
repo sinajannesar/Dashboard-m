@@ -32,7 +32,7 @@ export default function AddUserForm() {
                   className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   value={form[id as keyof typeof form]}
                   onChange={(e) => handleChange(id, e.target.value)}
-                  required
+                  
                 />
               </div>
             ))}

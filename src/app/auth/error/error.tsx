@@ -9,7 +9,6 @@ export default function ErrorPage() {
   
   let errorMessage = 'An error occurred during authentication';
   
-  // Map error codes to user-friendly messages
   if (error === 'OAuthSignin') {
     errorMessage = 'Error connecting to Auth0. Please try again later.';
   } else if (error === 'Configuration') {
