@@ -1,5 +1,13 @@
-import { UserInfoProps } from "@/types/next-auth";
 
+export interface UserInfoProps {
+    name: string;
+    email: string;
+    phone: string;
+    website: string;
+    company: string;
+    onClose: () => void;
+  }
+  
 export function UserInfo({ name, email, phone, website, company, onClose }: UserInfoProps) {
     return (
         <div className="fixed inset-0 flex justify-center items-center bg-black/50">
